@@ -19,6 +19,7 @@ public class Complaint {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 
+    @Embedded
     private Location location;
 
     private String title;
@@ -30,17 +31,18 @@ public class Complaint {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Embedded
     private Expression expression;
 
     @Builder
-    public Complaint(Member writer, Location location, String title, String content,
-                     String file, Category category, Expression expression) {
+    public Complaint(Member writer, Double latitude, Double longitude, String title, String content,
+                     String file, Category category) {
         this.writer = writer;
-        this.location = location;
+        this.location = new Location(latitude, longitude);
         this.title = title;
         this.content = content;
         this.file = file;
         this.category = category;
-        this.expression = expression;
+        this.expression = new Expression(0L,0L,0L);
     }
 }
