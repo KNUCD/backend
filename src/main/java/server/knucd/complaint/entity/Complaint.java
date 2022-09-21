@@ -1,8 +1,10 @@
 package server.knucd.complaint.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import server.knucd.member.entity.Member;
 
 import javax.persistence.*;
 
@@ -14,7 +16,8 @@ public class Complaint {
     @Id @GeneratedValue
     private Long id;
 
-//    private Member writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member writer;
 
     private Location location;
 
@@ -28,4 +31,16 @@ public class Complaint {
     private Category category;
 
     private Expression expression;
+
+    @Builder
+    public Complaint(Member writer, Location location, String title, String content,
+                     String file, Category category, Expression expression) {
+        this.writer = writer;
+        this.location = location;
+        this.title = title;
+        this.content = content;
+        this.file = file;
+        this.category = category;
+        this.expression = expression;
+    }
 }
