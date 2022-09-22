@@ -34,9 +34,6 @@ public class Complaint extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Embedded
-    private Expression expression;
-
     @Builder
     public Complaint(Member writer, Double latitude, Double longitude, String title, String content,
                      String file, Category category) {
@@ -47,7 +44,6 @@ public class Complaint extends BaseEntity {
         this.content = content;
         this.file = file;
         this.category = category;
-        this.expression = new Expression(0L,0L,0L);
     }
 
     public void setFile(String file) {

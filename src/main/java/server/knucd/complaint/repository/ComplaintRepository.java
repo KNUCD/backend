@@ -23,6 +23,17 @@ public class ComplaintRepository {
         return Optional.ofNullable(em.find(Complaint.class, id));
     }
 
+    public List<Complaint> findAll() {
+        return em.createQuery("select c from Complaint c order by c.id desc", Complaint.class).getResultList();
+    }
+
+    public List<Complaint> findAll(int page, int size) {
+        return em.createQuery("select c from Complaint c order by c.id desc ", Complaint.class)
+                .setFirstResult((page-1)*size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
     public List<Complaint> findAllByCategory(Category category) {
         return em.createQuery("select c from Complaint c " +
                 "where c.category = :category " +

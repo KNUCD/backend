@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import server.knucd.complaint.dto.CreateComplaintForm;
 import server.knucd.complaint.entity.Category;
 import server.knucd.complaint.entity.Complaint;
+import server.knucd.expression.entity.Expression;
 import server.knucd.complaint.repository.ComplaintRepository;
 import server.knucd.exception.NotFoundException;
+import server.knucd.expression.repository.ExpressionRepository;
 import server.knucd.file.service.FileService;
 import server.knucd.member.entity.Member;
 import server.knucd.member.repository.MemberRepository;
@@ -21,7 +23,7 @@ import java.util.List;
 public class ComplaintService {
 
     private final ComplaintRepository complaintRepository;
-
+    private final ExpressionRepository expressionRepository;
     private final MemberRepository memberRepository;
     private final FileService fileService;
 
@@ -55,13 +57,13 @@ public class ComplaintService {
     }
 
     public List<Complaint> findAllByCategory(Category category) {
-        List<Complaint> complaints = complaintRepository.findAllByCategory(category);
-        return complaints;
+        if(category.equals(Category.ALL)) return complaintRepository.findAll();
+        return complaintRepository.findAllByCategory(category);
     }
 
     public List<Complaint> findAllByCategory(Category category, int page, int size) {
-        List<Complaint> complaints = complaintRepository.findAllByCategory(category, page, size);
-        return complaints;
+        if(category.equals(Category.ALL)) return complaintRepository.findAll(page, size);
+        return  complaintRepository.findAllByCategory(category, page, size);
     }
 
     public Complaint findById(Long id) {
@@ -69,11 +71,12 @@ public class ComplaintService {
         return complaint;
     }
 
-    // 감정 표현 추가 기능 구현 예정
-
     @Transactional
     public void deleteById(Long id) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
+        List<Expression> expressions = expressionRepository.findAllByComplaintId(id);
+        for(Expression expression : expressions) expressionRepository.delete(expression);
+
         complaintRepository.delete(complaint);
     }
 
