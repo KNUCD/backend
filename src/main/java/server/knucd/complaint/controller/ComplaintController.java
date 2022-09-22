@@ -21,7 +21,7 @@ public class ComplaintController {
     private final ComplaintService complaintService;
 
     @PostMapping("/complaint")
-    public ApiSuccessResult<Long> create(@RequestBody @Valid CreateComplaintForm form) throws IOException{
+    public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form) throws IOException{
         Long complaintId = complaintService.save(form);
         return ApiUtil.success(complaintId);
     }
