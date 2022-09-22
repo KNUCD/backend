@@ -20,25 +20,25 @@ public class ComplaintController {
 
     private final ComplaintService complaintService;
 
-    @PostMapping("/complaint")
+    @PostMapping("/api/v1/complaint")
     public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form) throws IOException{
         Long complaintId = complaintService.save(form);
         return ApiUtil.success(complaintId);
     }
 
-    @GetMapping("/complaint/{id}")
+    @GetMapping("/api/v1/complaint/{id}")
     public ApiSuccessResult<ComplaintDTO> findById(@PathVariable Long id) {
         Complaint complaint = complaintService.findById(id);
         return ApiUtil.success(new ComplaintDTO(complaint));
     }
 
-    @GetMapping("/complaint")
+    @GetMapping("/api/v1/complaint")
     public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category) {
         List<Complaint> complaints = complaintService.findAllByCategory(category);
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
     }
 
-    @GetMapping("/complaint1")
+    @GetMapping("/api/v1/complaint1")
     public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category,
                                       @RequestParam(name = "page") int page,
                                       @RequestParam(name = "size") int size) {
@@ -46,7 +46,7 @@ public class ComplaintController {
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
     }
 
-    @DeleteMapping("/complaint/{id}")
+    @DeleteMapping("/api/v1/complaint/{id}")
     public ApiSuccessResult<String> delete(@PathVariable Long id) {
         complaintService.deleteById(id);
         return ApiUtil.success("삭제되었습니다.");
