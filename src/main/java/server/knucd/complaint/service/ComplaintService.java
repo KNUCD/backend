@@ -57,13 +57,13 @@ public class ComplaintService {
     }
 
     public List<Complaint> findAllByCategory(Category category) {
-        List<Complaint> complaints = complaintRepository.findAllByCategory(category);
-        return complaints;
+        if(category.equals(Category.ALL)) return complaintRepository.findAll();
+        return complaintRepository.findAllByCategory(category);
     }
 
     public List<Complaint> findAllByCategory(Category category, int page, int size) {
-        List<Complaint> complaints = complaintRepository.findAllByCategory(category, page, size);
-        return complaints;
+        if(category.equals(Category.ALL)) return complaintRepository.findAll(page, size);
+        return  complaintRepository.findAllByCategory(category, page, size);
     }
 
     public Complaint findById(Long id) {
