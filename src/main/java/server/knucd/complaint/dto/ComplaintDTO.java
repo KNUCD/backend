@@ -27,12 +27,6 @@ public class ComplaintDTO {
 
     private Category category;
 
-    private Long greatCount;
-
-    private Long likeCount;
-
-    private Long sadCount;
-
     private LocalDateTime createdDate;
 
     private Double latitude;
