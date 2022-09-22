@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import server.knucd.complaint.entity.Category;
 import server.knucd.complaint.entity.Complaint;
-import server.knucd.complaint.entity.Expression;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +35,10 @@ public class ComplaintDTO {
 
     private LocalDateTime createdDate;
 
+    private Double latitude;
+
+    private Double longitude;
+
     public ComplaintDTO(Complaint complaint) {
         this.id = complaint.getId();
         this.title = complaint.getTitle();
@@ -43,11 +46,9 @@ public class ComplaintDTO {
         this.file = complaint.getFile();
         this.writerName = complaint.getWriterName();
         this.category = complaint.getCategory();
-        Expression expression = complaint.getExpression();
-        this.greatCount = expression.getGreatCount();
-        this.likeCount = expression.getLikeCount();
-        this.sadCount = expression.getSadCount();
         this.createdDate = complaint.getCreatedDate();
+        this.latitude = complaint.getLocation().getLatitude();
+        this.longitude = complaint.getLocation().getLongitude();
     }
 
     public static List<ComplaintDTO> makeList(List<Complaint> complaints) {
