@@ -31,4 +31,8 @@ public class Expression extends BaseEntity {
         this.follower = follower;
         this.type = type;
     }
+
+    public void updateType(ExpressionType type) {
+        this.type = type;
+    }
 }

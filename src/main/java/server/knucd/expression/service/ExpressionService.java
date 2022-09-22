@@ -12,6 +12,7 @@ import server.knucd.expression.entity.ExpressionType;
 import server.knucd.expression.repository.ExpressionRepository;
 import server.knucd.member.entity.Member;
 import server.knucd.member.repository.MemberRepository;
+import server.knucd.utils.redis.RedisUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -22,42 +23,29 @@ public class ExpressionService {
     private final ComplaintRepository complaintRepository;
     private final MemberRepository memberRepository;
 
-    // 캐싱 필요
+    private final RedisUtil redis;
+
     @Transactional
     public void save(Long memberId, CreateExpressionForm form) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
         Complaint complaint = complaintRepository.findById(form.getComplaintId()).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        expressionRepository.findMyExpressionByComplaintId(form.getComplaintId(), memberId).ifPresent(expressionRepository::delete);
 
         Expression expression = Expression.builder()
                 .complaint(complaint)
                 .follower(member)
                 .type(form.getType())
                 .build();
-
-        expressionRepository.save(expression);
+        expressionRepository.save(expression, complaint.getId(), memberId);
     }
 
-    public Long countGreatByComplaintId(Long complaintId) {
+    public Long countExpressionByComplaintId(Long complaintId, ExpressionType type) {
         Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        return expressionRepository.countGreatByComplaintId(complaintId);
-    }
-
-    public Long countLikeByComplaintId(Long complaintId) {
-        Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        return expressionRepository.countLikeByComplaintId(complaintId);
-    }
-
-    public Long countSadByComplaintId(Long complaintId) {
-        Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        return expressionRepository.countSadByComplaintId(complaintId);
+        return expressionRepository.countExpressionByComplaintId(complaintId, type);
     }
 
     public ExpressionType findMyExpressionByComplaintId(Long complaintId, Long memberId) {
         Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        Expression expression = expressionRepository.findMyExpressionByComplaintId(complaintId, memberId)
-                .orElse(null);
-        return expression == null ? null : expression.getType();
+        return expressionRepository.findMyExpressionByComplaintId(complaintId, memberId);
     }
 }
