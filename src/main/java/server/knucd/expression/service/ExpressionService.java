@@ -26,8 +26,8 @@ public class ExpressionService {
     private final RedisUtil redis;
 
     @Transactional
-    public void save(Long memberId, CreateExpressionForm form) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+    public void save(Long kakaoId, CreateExpressionForm form) {
+        Member member = memberRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
         Complaint complaint = complaintRepository.findById(form.getComplaintId()).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
 
         Expression expression = Expression.builder()
@@ -35,7 +35,7 @@ public class ExpressionService {
                 .follower(member)
                 .type(form.getType())
                 .build();
-        expressionRepository.save(expression, complaint.getId(), memberId);
+        expressionRepository.save(expression, complaint.getId(), member.getId());
     }
 
     public Long countExpressionByComplaintId(Long complaintId, ExpressionType type) {
@@ -43,9 +43,9 @@ public class ExpressionService {
         return expressionRepository.countExpressionByComplaintId(complaintId, type);
     }
 
-    public ExpressionType findMyExpressionByComplaintId(Long complaintId, Long memberId) {
+    public ExpressionType findMyExpressionByComplaintId(Long complaintId, Long kakaoId) {
         Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        return expressionRepository.findMyExpressionByComplaintId(complaintId, memberId);
+        Member member = memberRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+        return expressionRepository.findMyExpressionByComplaintId(complaintId, member.getId());
     }
 }

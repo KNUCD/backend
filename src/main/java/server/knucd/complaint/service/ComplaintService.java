@@ -15,6 +15,7 @@ import server.knucd.member.repository.MemberRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +28,8 @@ public class ComplaintService {
     private final FileService fileService;
 
     @Transactional
-    public Long save(CreateComplaintForm form) throws IOException {
-        // sample member
-        Member member = Member.builder()
-                .name("테스트")
-                .email("123@abc.com")
-                .build();
-        memberRepository.save(member);
+    public Long save(CreateComplaintForm form, Long kakaoId) throws IOException {
+        Member member = memberRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
 
         Complaint complaint = Complaint.builder()
                 .writer(member)
@@ -78,8 +74,9 @@ public class ComplaintService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(Long id, Long kakaoId) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
+        if(!Objects.equals(complaint.getWriter().getKakaoId(), kakaoId)) throw new IllegalStateException("삭제 권한이 없습니다.");
         expressionRepository.deleteAllByComplaintId(id);
         complaintRepository.delete(complaint);
     }
