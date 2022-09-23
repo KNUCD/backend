@@ -54,6 +54,18 @@ public class ComplaintRepository {
                 .getResultList();
     }
 
+    public List<Complaint> findByRange(Double lat1, Double long1, Double lat2, Double long2) {
+        return em.createQuery("select c from Complaint c " +
+                "where c.location.latitude >= :lat1 and c.location.longitude >= :long1 " +
+                "and c.location.latitude <= :lat2 and c.location.longitude <= :long2", Complaint.class)
+                .setParameter("lat1", lat1)
+                .setParameter("long1", long1)
+                .setParameter("lat2", lat2)
+                .setParameter("long2", long2)
+                .getResultList();
+
+    }
+
     public void delete(Complaint complaint) {
         em.remove(complaint);
     }

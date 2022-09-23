@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import server.knucd.complaint.dto.ComplaintDTO;
 import server.knucd.complaint.dto.CreateComplaintForm;
+import server.knucd.complaint.dto.PinDTO;
 import server.knucd.complaint.entity.Category;
 import server.knucd.complaint.entity.Complaint;
 import server.knucd.complaint.service.ComplaintService;
@@ -51,6 +52,16 @@ public class ComplaintController {
                                       @RequestParam(name = "size") int size) {
         List<Complaint> complaints = complaintService.findAllByCategory(category, page, size);
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
+    }
+
+    @Operation(summary = "범위로 핀 조회")
+    @GetMapping("/api/v1/complaint/pin")
+    public ApiSuccessResult<List<PinDTO>> findPinInRange(@RequestParam(name = "ha") Double lat1,
+                                                         @RequestParam(name = "qa") Double long1,
+                                                         @RequestParam(name = "oa") Double lat2,
+                                                         @RequestParam(name = "pa") Double long2) {
+        List<Complaint> complaints = complaintService.findByRange(lat1, long1, lat2, long2);
+        return ApiUtil.success(PinDTO.makeList(complaints));
     }
 
     @Operation(summary = "민원 삭제")
