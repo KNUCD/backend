@@ -40,6 +40,18 @@ public class TokenExceptionFilter extends OncePerRequestFilter {
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
             res.setCharacterEncoding("UTF-8");
             res.getWriter().write(body);
+
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            String body = objectMapper
+                    .writeValueAsString(ApiUtil.error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "알 수 없는 오류 서버팀에 문의하세요"));
+
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().write(body);
+
+            logger.error("Security Filter 에서 커스텀 오류 외", e);
         }
     }
 }

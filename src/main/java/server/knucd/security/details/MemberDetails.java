@@ -7,7 +7,7 @@ import server.knucd.member.entity.Member;
 public class MemberDetails extends User {
 
     public MemberDetails(Member member) {
-        super(String.valueOf(member.getKakaoId()), null,
+        super(String.valueOf(member.getKakaoId()), "",
                 AuthorityUtils.createAuthorityList(member.getRole().toString()));
     }
 

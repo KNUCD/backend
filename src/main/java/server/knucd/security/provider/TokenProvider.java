@@ -1,16 +1,13 @@
 package server.knucd.security.provider;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
-import server.knucd.member.service.MemberService;
 import server.knucd.security.details.MemberDetails;
 import server.knucd.security.details.MemberDetailsService;
-import server.knucd.utils.redis.RedisUtil;
 
 
 /**
@@ -41,13 +38,10 @@ public class TokenProvider implements AuthenticationProvider {
      */
     public static final String ACCOUNT_TOKEN_NAME = "member_refresh_token";
 
-    @Value("${group.name}")
-    private String ISSUER;
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         MemberDetails userDetails = (MemberDetails) memberDetailsService
-                     .loadUserByUsername((String) authentication.getPrincipal());
+                     .loadUserByUsername(String.valueOf(authentication.getPrincipal()));
 
 
         return new UsernamePasswordAuthenticationToken(
