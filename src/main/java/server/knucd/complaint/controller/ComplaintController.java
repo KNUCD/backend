@@ -38,29 +38,34 @@ public class ComplaintController {
         return ApiUtil.success(new ComplaintDTO(complaint));
     }
 
-    @Operation(summary = "카테고리 별 민원 전체 조회")
+    @Operation(summary = "카테고리 별 민원 전체 조회(범위)")
     @GetMapping("/api/v1/complaint")
-    public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category) {
-        List<Complaint> complaints = complaintService.findAllByCategory(category);
+    public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category,
+                                                        @RequestParam(name = "ha") Double lat1,
+                                                        @RequestParam(name = "qa") Double long1,
+                                                        @RequestParam(name = "oa") Double lat2,
+                                                        @RequestParam(name = "pa") Double long2) {
+        List<Complaint> complaints = complaintService.findAllByCategoryAndRange(category, lat1, long1, lat2, long2);
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
     }
 
-    @Operation(summary = "페이징이 가능한 카테고리 별 민원 전체 조회")
+    @Operation(summary = "페이징이 가능한 카테고리 별 민원 전체 조회(범위)")
     @GetMapping("/api/v1/complaint1")
     public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category,
-                                      @RequestParam(name = "page") int page,
-                                      @RequestParam(name = "size") int size) {
-        List<Complaint> complaints = complaintService.findAllByCategory(category, page, size);
+                                                        @RequestParam(name = "ha") Double lat1,
+                                                        @RequestParam(name = "qa") Double long1,
+                                                        @RequestParam(name = "oa") Double lat2,
+                                                        @RequestParam(name = "pa") Double long2,
+                                                        @RequestParam(name = "page") int page,
+                                                        @RequestParam(name = "size") int size) {
+        List<Complaint> complaints = complaintService.findAllByCategoryAndRange(category, lat1, long1, lat2, long2, page, size);
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
     }
 
-    @Operation(summary = "범위로 핀 조회")
+    @Operation(summary = "전체 핀 조회")
     @GetMapping("/api/v1/complaint/pin")
-    public ApiSuccessResult<List<PinDTO>> findPinInRange(@RequestParam(name = "ha") Double lat1,
-                                                         @RequestParam(name = "qa") Double long1,
-                                                         @RequestParam(name = "oa") Double lat2,
-                                                         @RequestParam(name = "pa") Double long2) {
-        List<Complaint> complaints = complaintService.findByRange(lat1, long1, lat2, long2);
+    public ApiSuccessResult<List<PinDTO>> findAllPins(@RequestParam(name = "category") Category category) {
+        List<Complaint> complaints = complaintService.findAllByCategory(category);
         return ApiUtil.success(PinDTO.makeList(complaints));
     }
 

@@ -53,23 +53,28 @@ public class ComplaintService {
         return complaint.getId();
     }
 
+    public List<Complaint> findAll() {
+        return complaintRepository.findAll();
+    }
+
+    public List<Complaint> findAllByCategoryAndRange(Category category, Double lat1, Double long1, Double lat2, Double long2) {
+        if(category.equals(Category.ALL)) return complaintRepository.findAllByRange(lat1, long1, lat2, long2);
+        return complaintRepository.findAllByCategoryAndRange(category, lat1, long1, lat2, long2);
+    }
+
+    public List<Complaint> findAllByCategoryAndRange(Category category, Double lat1, Double long1, Double lat2, Double long2, int page, int size) {
+        if(category.equals(Category.ALL)) return complaintRepository.findAllByRange(lat1, long1, lat2, long2, page, size);
+        return  complaintRepository.findAllByCategoryAndRange(category, lat1, long1, lat2, long2, page, size);
+    }
+
     public List<Complaint> findAllByCategory(Category category) {
         if(category.equals(Category.ALL)) return complaintRepository.findAll();
         return complaintRepository.findAllByCategory(category);
     }
 
-    public List<Complaint> findAllByCategory(Category category, int page, int size) {
-        if(category.equals(Category.ALL)) return complaintRepository.findAll(page, size);
-        return  complaintRepository.findAllByCategory(category, page, size);
-    }
-
     public Complaint findById(Long id) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
         return complaint;
-    }
-
-    public List<Complaint> findByRange(Double lat1, Double long1, Double lat2, Double long2) {
-        return complaintRepository.findByRange(lat1, long1, lat2, long2);
     }
 
     @Transactional
