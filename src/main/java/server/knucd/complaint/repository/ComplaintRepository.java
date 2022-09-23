@@ -27,43 +27,68 @@ public class ComplaintRepository {
         return em.createQuery("select c from Complaint c order by c.id desc", Complaint.class).getResultList();
     }
 
-    public List<Complaint> findAll(int page, int size) {
-        return em.createQuery("select c from Complaint c order by c.id desc ", Complaint.class)
-                .setFirstResult((page-1)*size)
-                .setMaxResults(size)
-                .getResultList();
-    }
-
     public List<Complaint> findAllByCategory(Category category) {
-        return em.createQuery("select c from Complaint c " +
-                "where c.category = :category " +
-                "order by c.id desc",
-                Complaint.class)
+        return em.createQuery("select c from Complaint c where c.category = :category", Complaint.class)
                 .setParameter("category", category)
                 .getResultList();
     }
 
-    public List<Complaint> findAllByCategory(Category category, int page, int size) {
-        return em.createQuery("select c from Complaint c " +
-                "where c.category = :category " +
-                "order by c.id desc",
-                Complaint.class)
-                .setParameter("category", category)
-                .setMaxResults(size)
-                .setFirstResult((page-1)*size)
-                .getResultList();
-    }
-
-    public List<Complaint> findByRange(Double lat1, Double long1, Double lat2, Double long2) {
+    public List<Complaint> findAllByRange(Double lat1, Double long1, Double lat2, Double long2) {
         return em.createQuery("select c from Complaint c " +
                 "where c.location.latitude >= :lat1 and c.location.longitude >= :long1 " +
-                "and c.location.latitude <= :lat2 and c.location.longitude <= :long2", Complaint.class)
+                "and c.location.latitude <= :lat2 and c.location.longitude <= :long2 " +
+                "order by c.id desc", Complaint.class)
                 .setParameter("lat1", lat1)
                 .setParameter("long1", long1)
                 .setParameter("lat2", lat2)
                 .setParameter("long2", long2)
                 .getResultList();
+    }
 
+    public List<Complaint> findAllByRange(Double lat1, Double long1, Double lat2, Double long2, int page, int size) {
+        return em.createQuery("select c from Complaint c " +
+                        "where c.location.latitude >= :lat1 and c.location.longitude >= :long1 " +
+                        "and c.location.latitude <= :lat2 and c.location.longitude <= :long2 " +
+                        "order by c.id desc ", Complaint.class)
+                .setParameter("lat1", lat1)
+                .setParameter("long1", long1)
+                .setParameter("lat2", lat2)
+                .setParameter("long2", long2)
+                .setFirstResult((page-1)*size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    public List<Complaint> findAllByCategoryAndRange(Category category, Double lat1, Double long1, Double lat2, Double long2) {
+        return em.createQuery("select c from Complaint c " +
+                "where c.category = :category " +
+                "and c.location.latitude >= :lat1 and c.location.longitude >= :long1 " +
+                "and c.location.latitude <= :lat2 and c.location.longitude <= :long2 " +
+                "order by c.id desc",
+                Complaint.class)
+                .setParameter("category", category)
+                .setParameter("lat1", lat1)
+                .setParameter("long1", long1)
+                .setParameter("lat2", lat2)
+                .setParameter("long2", long2)
+                .getResultList();
+    }
+
+    public List<Complaint> findAllByCategoryAndRange(Category category, Double lat1, Double long1, Double lat2, Double long2, int page, int size) {
+        return em.createQuery("select c from Complaint c " +
+                "where c.category = :category " +
+                "and c.location.latitude >= :lat1 and c.location.longitude >= :long1 " +
+                "and c.location.latitude <= :lat2 and c.location.longitude <= :long2 " +
+                "order by c.id desc",
+                Complaint.class)
+                .setParameter("category", category)
+                .setParameter("lat1", lat1)
+                .setParameter("long1", long1)
+                .setParameter("lat2", lat2)
+                .setParameter("long2", long2)
+                .setMaxResults(size)
+                .setFirstResult((page-1)*size)
+                .getResultList();
     }
 
     public void delete(Complaint complaint) {
