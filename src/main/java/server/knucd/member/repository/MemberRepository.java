@@ -29,4 +29,11 @@ public class MemberRepository {
                 .stream()
                 .findFirst();
     }
+
+    public Boolean existMemberByKakaoId(Long kakaoId) {
+        return em.createQuery("select count(m) > 0 from Member m " +
+                "where m.kakaoId =:kakaoId", Boolean.class)
+                .setParameter("kakaoId", kakaoId)
+                .getSingleResult();
+    }
 }

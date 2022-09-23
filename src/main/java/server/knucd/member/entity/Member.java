@@ -20,8 +20,6 @@ public class Member extends BaseEntity {
 
     private String name;
 
-    private String email;
-
     private String image;
 
     @Enumerated(EnumType.STRING)
@@ -29,10 +27,9 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(Long kakaoId, String name, String email, String image, Role role) {
+    public Member(Long kakaoId, String name, String image, Role role) {
         this.kakaoId = kakaoId;
         this.name = name;
-        this.email = email;
         this.image = image;
         this.role = role;
     }
