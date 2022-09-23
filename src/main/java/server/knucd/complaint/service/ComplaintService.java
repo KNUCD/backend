@@ -74,9 +74,7 @@ public class ComplaintService {
     @Transactional
     public void deleteById(Long id) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
-        List<Expression> expressions = expressionRepository.findAllByComplaintId(id);
-        for(Expression expression : expressions) expressionRepository.delete(expression);
-
+        expressionRepository.deleteAllByComplaintId(id);
         complaintRepository.delete(complaint);
     }
 
