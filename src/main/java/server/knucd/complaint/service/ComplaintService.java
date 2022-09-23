@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import server.knucd.complaint.dto.CreateComplaintForm;
 import server.knucd.complaint.entity.Category;
 import server.knucd.complaint.entity.Complaint;
-import server.knucd.expression.entity.Expression;
 import server.knucd.complaint.repository.ComplaintRepository;
 import server.knucd.exception.NotFoundException;
 import server.knucd.expression.repository.ExpressionRepository;
@@ -32,9 +31,7 @@ public class ComplaintService {
         // sample member
         Member member = Member.builder()
                 .name("테스트")
-                .phone("010-1234-5678")
                 .email("123@abc.com")
-                .address("대구 북구 대학로 80")
                 .build();
         memberRepository.save(member);
 
@@ -69,6 +66,10 @@ public class ComplaintService {
     public Complaint findById(Long id) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(() -> new NotFoundException("민원이 존재하지 않습니다."));
         return complaint;
+    }
+
+    public List<Complaint> findByRange(Double lat1, Double long1, Double lat2, Double long2) {
+        return complaintRepository.findByRange(lat1, long1, lat2, long2);
     }
 
     @Transactional
