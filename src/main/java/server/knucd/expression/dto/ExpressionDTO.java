@@ -10,11 +10,11 @@ import server.knucd.expression.entity.ExpressionType;
 @NoArgsConstructor
 public class ExpressionDTO {
 
-    private Long greatCount;
+    private Long goodCount;
 
-    private Long likeCount;
+    private Long badCount;
 
-    private Long sadCount;
+    private Long amazingCount;
 
     private ExpressionType myExpression;
 }

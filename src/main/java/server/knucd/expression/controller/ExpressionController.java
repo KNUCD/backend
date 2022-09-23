@@ -27,9 +27,9 @@ public class ExpressionController {
     public ApiSuccessResult<ExpressionDTO> findExpressionsByComplaintId(@PathVariable Long id) {
         Long memberId = 1L; // 샘플
         return  ApiUtil.success(new ExpressionDTO(
-                expressionService.countExpressionByComplaintId(id, ExpressionType.GREAT),
-                expressionService.countExpressionByComplaintId(id, ExpressionType.LIKE),
-                expressionService.countExpressionByComplaintId(id, ExpressionType.SAD),
+                expressionService.countExpressionByComplaintId(id, ExpressionType.GOOD),
+                expressionService.countExpressionByComplaintId(id, ExpressionType.BAD),
+                expressionService.countExpressionByComplaintId(id, ExpressionType.AMAZING),
                 expressionService.findMyExpressionByComplaintId(id, memberId)
         ));
     }
