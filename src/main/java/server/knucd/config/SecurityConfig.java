@@ -43,6 +43,14 @@ public class SecurityConfig {
                                  HttpSecurity http, ObjectMapper objectMapper,
                                          RedisUtil redisUtil) throws Exception {
         return setTokenHttpSecurity(http, objectMapper)
+                .requestMatchers()
+                .antMatchers(HttpMethod.POST, "/api/v1/**")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/**")
+                .antMatchers("/api/v1/**/me")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/**").hasRole("USER")
+                .and()
                 .addFilterAfter(tokenAuthenticationFilter(tokenProvider, redisUtil),
                         TokenExceptionFilter.class)
                 .build();
