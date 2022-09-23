@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.knucd.base.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,19 +16,24 @@ public class Member extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
-    private String name;
+    private String kakaoId;
 
-    private String phone;
+    private String name;
 
     private String email;
 
-    private String address;
+    private String image;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     @Builder
-    public Member(String name, String phone, String email, String address) {
+    public Member(String kakaoId, String name, String email, String image, Role role) {
+        this.kakaoId = kakaoId;
         this.name = name;
-        this.phone = phone;
         this.email = email;
-        this.address = address;
+        this.image = image;
+        this.role = role;
     }
 }
