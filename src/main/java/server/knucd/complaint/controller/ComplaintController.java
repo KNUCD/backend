@@ -13,6 +13,7 @@ import server.knucd.complaint.service.ComplaintService;
 import server.knucd.utils.api.ApiUtil;
 import server.knucd.utils.api.ApiUtil.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -26,8 +27,10 @@ public class ComplaintController {
 
     @Operation(summary = "민원 생성")
     @PostMapping("/api/v1/complaint")
-    public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form) throws IOException{
-        Long complaintId = complaintService.save(form);
+    public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form,
+                                         HttpServletRequest req) throws IOException{
+        Long kakaoId = (Long) req.getAttribute("kakaoId");
+        Long complaintId = complaintService.save(form, kakaoId);
         return ApiUtil.success(complaintId);
     }
 
@@ -71,8 +74,10 @@ public class ComplaintController {
 
     @Operation(summary = "민원 삭제")
     @DeleteMapping("/api/v1/complaint/{id}")
-    public ApiSuccessResult<String> delete(@PathVariable Long id) {
-        complaintService.deleteById(id);
+    public ApiSuccessResult<String> delete(@PathVariable Long id,
+                                           HttpServletRequest req) {
+        Long kakaoId = (Long) req.getAttribute("kakaoId");
+        complaintService.deleteById(id, kakaoId);
         return ApiUtil.success("삭제되었습니다.");
     }
 }
