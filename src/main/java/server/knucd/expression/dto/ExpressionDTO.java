@@ -15,6 +15,4 @@ public class ExpressionDTO {
     private Long badCount;
 
     private Long amazingCount;
-
-    private ExpressionType myExpression;
 }

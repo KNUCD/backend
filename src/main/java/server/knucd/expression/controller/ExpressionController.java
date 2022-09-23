@@ -27,14 +27,18 @@ public class ExpressionController {
     }
 
     @GetMapping("/api/v1/expression/{id}")
-    public ApiSuccessResult<ExpressionDTO> findExpressionsByComplaintId(@PathVariable Long id,
-                                                                        HttpServletRequest req) {
-        Long kakaoId = (Long) req.getAttribute("kakaoId");
+    public ApiSuccessResult<ExpressionDTO> findExpressionsByComplaintId(@PathVariable Long id) {
         return  ApiUtil.success(new ExpressionDTO(
                 expressionService.countExpressionByComplaintId(id, ExpressionType.GOOD),
                 expressionService.countExpressionByComplaintId(id, ExpressionType.BAD),
-                expressionService.countExpressionByComplaintId(id, ExpressionType.AMAZING),
-                expressionService.findMyExpressionByComplaintId(id, kakaoId)
+                expressionService.countExpressionByComplaintId(id, ExpressionType.AMAZING)
         ));
+    }
+
+    @GetMapping("/api/v1/expression/{id}/me")
+    public ApiSuccessResult<ExpressionType> findMyExpressByComplaintId(@PathVariable Long id,
+                                                                       HttpServletRequest req) {
+        Long kakaoId = (Long) req.getAttribute("kakaoId");
+        return ApiUtil.success(expressionService.findMyExpressionByComplaintId(id, kakaoId));
     }
 }
