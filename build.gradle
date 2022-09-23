@@ -42,6 +42,12 @@ dependencies {
 //    validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+//    spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
+
+    implementation group: 'org.json', name: 'json', version: '20220320'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'

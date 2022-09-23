@@ -1,4 +1,4 @@
-package server.knucd.exception;
+package server.knucd.exception.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import server.knucd.exception.NotFoundException;
 import server.knucd.utils.api.ApiUtil.*;
 import server.knucd.utils.api.ApiUtil;
 
