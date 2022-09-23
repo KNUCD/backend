@@ -16,7 +16,7 @@ public class Member extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
-    private String kakaoId;
+    private Long kakaoId;
 
     private String name;
 
@@ -29,7 +29,7 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String kakaoId, String name, String email, String image, Role role) {
+    public Member(Long kakaoId, String name, String email, String image, Role role) {
         this.kakaoId = kakaoId;
         this.name = name;
         this.email = email;

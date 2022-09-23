@@ -22,11 +22,11 @@ public class MemberRepository {
         return Optional.ofNullable(em.find(Member.class, id));
     }
 
-    public Optional<Member> findByKakaoId(String kakaoId) {
-        List<Member> members = em.createQuery("select m from Member m where m.kakaoId = :kakaoId", Member.class)
+    public Optional<Member> findByKakaoId(Long kakaoId) {
+        return em.createQuery("select m from Member m where m.kakaoId = :kakaoId", Member.class)
                 .setParameter("kakaoId", kakaoId)
-                .getResultList();
-        if(members.isEmpty()) return Optional.empty();
-        return Optional.of(members.get(0));
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 }

@@ -14,7 +14,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member findByKakaoId(String kakaoId) {
+    public Member findByKakaoId(Long kakaoId) {
         return memberRepository.findByKakaoId(kakaoId).orElseThrow(
                 () -> new NotFoundException("존재하지 않는 회원입니다."));
     }
