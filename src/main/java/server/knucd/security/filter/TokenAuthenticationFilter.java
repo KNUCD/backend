@@ -43,9 +43,14 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
         String authHeader = req.getHeader(TOKEN_HEADER_NAME);
         String memberToken = null;
         if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) memberToken = authHeader.replace(TOKEN_PREFIX, "");
-        else throw new TokenNotFoundException("헤더에 토큰이 없습니다.");
+        else {
+            throw new TokenNotFoundException("헤더에 토큰이 없습니다.");
+        }
 
         Long kakaoId = (Long) redis.get(memberToken);
+        if (kakaoId == null) {
+            throw new TokenNotFoundException("토큰이 만료되었습니다.");
+        }
 
         request.setAttribute("kakaoId", kakaoId);
 
