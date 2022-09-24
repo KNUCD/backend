@@ -23,7 +23,7 @@ import java.util.UUID;
 /**
  * 서버 HTTP request/response logging filter
  */
-//@Order(1)
+@Order(1)
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
     protected static final Logger log = LoggerFactory.getLogger(LoggingFilter.class);

@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import server.knucd.member.service.UserInfoDto;
 import server.knucd.oAuth.kakao.dto.KakaoToken;
 import server.knucd.oAuth.kakao.dto.KakaoTokenInfo;
+import server.knucd.oAuth.kakao.dto.TokenDTO;
+import server.knucd.utils.redis.RedisUtil;
 
 import java.util.Map;
 
@@ -22,8 +24,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KakaoService {
 
-    private static final String REFRESH_TOKEN_PREFIX = "KT::RT::";
-    private static final String ACCESS_TOKEN_PREFIX = "KT::AT::";
+    public static final String REFRESH_TOKEN_PREFIX = "KT::RT::";
+    public static final String ACCESS_TOKEN_PREFIX = "KT::AT::";
+
+    public static final long TOKEN_VALIDATION_SECOND = 60 * 120;
+    public static final long REFRESH_TOKEN_VALIDATION_TIME = 60 * 60 * 24 * 30;
+
+    private final RedisUtil redisUtil;
 
     public KakaoToken getToken(String type, String apiKey, String callbackURL, String code)
             throws JsonProcessingException {
@@ -94,5 +101,36 @@ public class KakaoService {
         String imageUrl = properties.get("profile_image");
 
         return new UserInfoDto(id, nickname, imageUrl);
+    }
+
+    public TokenDTO reIssueToken(String type, String apiKey, String refreshToken) throws JsonProcessingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+        param.add("grant_type", type);
+        param.add("client_id", apiKey);
+        param.add("refresh_token", refreshToken);
+
+        HttpEntity requestInfo = new HttpEntity(param, headers);
+
+        RestTemplate req = new RestTemplate();
+        ResponseEntity<String> response = req.exchange("https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                requestInfo,
+                String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> result = mapper.readValue(response.getBody(), Map.class);
+
+        return new TokenDTO((String)result.get("access_token"), (String)result.get("refresh_token"));
+    }
+
+    public void cacheKakaoToken(Long kakaoId, String accessToken, String refreshToken) {
+        redisUtil.set(REFRESH_TOKEN_PREFIX + refreshToken, accessToken);
+        redisUtil.expire(REFRESH_TOKEN_PREFIX, TOKEN_VALIDATION_SECOND);
+
+        redisUtil.set(ACCESS_TOKEN_PREFIX + accessToken, kakaoId);
+        redisUtil.expire(ACCESS_TOKEN_PREFIX + accessToken, TOKEN_VALIDATION_SECOND);
     }
 }
