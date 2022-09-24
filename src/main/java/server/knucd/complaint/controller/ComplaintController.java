@@ -44,10 +44,10 @@ public class ComplaintController {
     @Operation(summary = "카테고리 별 민원 전체 조회(범위)")
     @GetMapping("/api/v1/complaint")
     public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category,
-                                                        @RequestParam(name = "ha") Double lat1,
-                                                        @RequestParam(name = "qa") Double long1,
-                                                        @RequestParam(name = "oa") Double lat2,
-                                                        @RequestParam(name = "pa") Double long2) {
+                                                        @RequestParam(name = "ha") Double long1,
+                                                        @RequestParam(name = "qa") Double lat1,
+                                                        @RequestParam(name = "oa") Double long2,
+                                                        @RequestParam(name = "pa") Double lat2) {
         List<Complaint> complaints = complaintService.findAllByCategoryAndRange(category, lat1, long1, lat2, long2);
         return ApiUtil.success(ComplaintDTO.makeList(complaints));
     }
@@ -55,10 +55,10 @@ public class ComplaintController {
     @Operation(summary = "페이징이 가능한 카테고리 별 민원 전체 조회(범위)")
     @GetMapping("/api/v1/complaint1")
     public ApiSuccessResult<List<ComplaintDTO>> findAll(@RequestParam(name = "category") Category category,
-                                                        @RequestParam(name = "ha") Double lat1,
-                                                        @RequestParam(name = "qa") Double long1,
-                                                        @RequestParam(name = "oa") Double lat2,
-                                                        @RequestParam(name = "pa") Double long2,
+                                                        @RequestParam(name = "ha") Double long1,
+                                                        @RequestParam(name = "qa") Double lat1,
+                                                        @RequestParam(name = "oa") Double long2,
+                                                        @RequestParam(name = "pa") Double lat2,
                                                         @RequestParam(name = "page") int page,
                                                         @RequestParam(name = "size") int size) {
         List<Complaint> complaints = complaintService.findAllByCategoryAndRange(category, lat1, long1, lat2, long2, page, size);
