@@ -25,7 +25,7 @@ public class ComplaintController {
 
     private final ComplaintService complaintService;
 
-    @Operation(summary = "민원 생성")
+    @Operation(summary = "민원 생성", description = "Access Token")
     @PostMapping("/api/v1/complaint")
     public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form,
                                          HttpServletRequest req) throws IOException{
@@ -72,7 +72,7 @@ public class ComplaintController {
         return ApiUtil.success(PinDTO.makeList(complaints));
     }
 
-    @Operation(summary = "민원 삭제")
+    @Operation(summary = "민원 삭제", description = "Access Token")
     @DeleteMapping("/api/v1/complaint/{id}")
     public ApiSuccessResult<String> delete(@PathVariable Long id,
                                            HttpServletRequest req) {
