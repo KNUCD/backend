@@ -21,6 +21,7 @@ import server.knucd.utils.redis.RedisUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,7 +64,7 @@ public class RestKakaoController {
 
     @GetMapping("/callback")
     public ApiSuccessResult<TokenDTO> kakaoLoginCallback(@RequestParam(name = "code") String code,
-                                                         HttpServletResponse res) throws JsonProcessingException {
+                                                         HttpServletResponse res) throws IOException {
 
         KakaoToken token = kakaoService.getToken(
                 "authorization_code",
@@ -85,6 +86,8 @@ public class RestKakaoController {
 
         ResponseCookie cookie = cookieUtil.createCookie("PP_refresh", refreshToken);
         res.addHeader("Set-Cookie", cookie.toString());
+
+        res.sendRedirect("https://www.pinplaint.com");
 
         return ApiUtil.success(new TokenDTO(accessToken, refreshToken));
     }
