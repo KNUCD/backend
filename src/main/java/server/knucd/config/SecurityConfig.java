@@ -17,8 +17,6 @@ import server.knucd.security.filter.TokenExceptionFilter;
 import server.knucd.security.provider.TokenProvider;
 import server.knucd.utils.redis.RedisUtil;
 
-import javax.servlet.FilterChain;
-
 /**
  * 서버 Spring Security FilterChain 설정
  */
@@ -44,7 +42,8 @@ public class SecurityConfig {
                                          RedisUtil redisUtil) throws Exception {
         return setTokenHttpSecurity(http, objectMapper)
                 .requestMatchers()
-                .antMatchers(HttpMethod.POST, "/api/v1/**")
+                .antMatchers(HttpMethod.POST, "/api/v1/complaint/**")
+                .antMatchers(HttpMethod.POST, "/api/v1/expression/**")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/**")
                 .antMatchers("/api/v1/**/me")
                 .and()
