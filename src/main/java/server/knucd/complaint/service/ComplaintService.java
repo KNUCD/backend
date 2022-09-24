@@ -12,6 +12,8 @@ import server.knucd.expression.repository.ExpressionRepository;
 import server.knucd.file.service.FileService;
 import server.knucd.member.entity.Member;
 import server.knucd.member.repository.MemberRepository;
+import server.knucd.member.service.UserInfoDto;
+import server.knucd.oAuth.kakao.service.KakaoService;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,9 +29,14 @@ public class ComplaintService {
     private final MemberRepository memberRepository;
     private final FileService fileService;
 
+    private final KakaoService kakaoService;
+
     @Transactional
-    public Long save(CreateComplaintForm form, Long kakaoId) throws IOException {
+    public Long save(CreateComplaintForm form, Long kakaoId, String accessToken) throws IOException {
         Member member = memberRepository.findByKakaoId(kakaoId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+
+
+        UserInfoDto userInfo = kakaoService.getUserInfo(accessToken);
 
         Complaint complaint = Complaint.builder()
                 .writer(member)
@@ -38,6 +45,7 @@ public class ComplaintService {
                 .category(form.getCategory())
                 .latitude(form.getLatitude())
                 .longitude(form.getLongitude())
+                .writerImg(userInfo.getImage())
                 .build();
 
         complaintRepository.save(complaint);

@@ -22,6 +22,8 @@ public class Complaint extends BaseEntity {
 
     private String writerName;
 
+    private String writerImg;
+
     @Embedded
     private Location location;
 
@@ -36,7 +38,7 @@ public class Complaint extends BaseEntity {
 
     @Builder
     public Complaint(Member writer, Double latitude, Double longitude, String title, String content,
-                     String file, Category category) {
+                     String file, Category category, String writerImg) {
         this.writer = writer;
         this.writerName = writer.getName();
         this.location = new Location(latitude, longitude);
@@ -44,6 +46,7 @@ public class Complaint extends BaseEntity {
         this.content = content;
         this.file = file;
         this.category = category;
+        this.writerImg = writerImg;
     }
 
     public void setFile(String file) {

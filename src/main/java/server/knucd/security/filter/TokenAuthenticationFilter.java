@@ -54,6 +54,7 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
         }
 
         request.setAttribute("kakaoId", kakaoId);
+        request.setAttribute("accessToken", memberToken);
 
         Authentication authenticate = tokenProvider.authenticate(new UsernamePasswordAuthenticationToken(kakaoId, ""));
         SecurityContextHolder.getContext().setAuthentication(authenticate);

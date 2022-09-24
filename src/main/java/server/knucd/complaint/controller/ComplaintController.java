@@ -30,7 +30,9 @@ public class ComplaintController {
     public ApiSuccessResult<Long> create(@Valid CreateComplaintForm form,
                                          HttpServletRequest req) throws IOException{
         Long kakaoId = (Long) req.getAttribute("kakaoId");
-        Long complaintId = complaintService.save(form, kakaoId);
+        String accessToken = (String) req.getAttribute("accessToken");
+
+        Long complaintId = complaintService.save(form, kakaoId, accessToken);
         return ApiUtil.success(complaintId);
     }
 

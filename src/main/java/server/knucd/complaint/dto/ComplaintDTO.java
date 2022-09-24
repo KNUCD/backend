@@ -25,6 +25,8 @@ public class ComplaintDTO {
 
     private String writerName;
 
+    private String writerImg;
+
     private Category category;
 
     private LocalDateTime createdDate;
@@ -43,6 +45,7 @@ public class ComplaintDTO {
         this.createdDate = complaint.getCreatedDate();
         this.latitude = complaint.getLocation().getLatitude();
         this.longitude = complaint.getLocation().getLongitude();
+        this.writerImg = complaint.getWriterImg();
     }
 
     public static List<ComplaintDTO> makeList(List<Complaint> complaints) {
