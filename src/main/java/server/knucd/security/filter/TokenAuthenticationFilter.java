@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 import server.knucd.exception.TokenNotFoundException;
+import server.knucd.oAuth.kakao.service.KakaoService;
 import server.knucd.security.provider.TokenProvider;
 import server.knucd.utils.redis.RedisUtil;
 
@@ -47,7 +48,7 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
             throw new TokenNotFoundException("헤더에 토큰이 없습니다.");
         }
 
-        Long kakaoId = (Long) redis.get(memberToken);
+        Long kakaoId = (Long) redis.get(KakaoService.ACCESS_TOKEN_PREFIX + memberToken);
         if (kakaoId == null) {
             throw new TokenNotFoundException("토큰이 만료되었습니다.");
         }

@@ -45,15 +45,14 @@ public class RestKakaoController {
     @PostMapping("/api/v1/auth/account-token")
     public ApiSuccessResult<TokenDTO> reIssueToken(HttpServletRequest req, HttpServletResponse res) throws JsonProcessingException {
 //      쿠키로 전달된 refresh 토큰 확인
-        String refreshToken = KakaoService.REFRESH_TOKEN_PREFIX + cookieUtil.getCookie(req, "PP_refresh").getValue();
+        String refreshToken = cookieUtil.getCookie(req, "PP_refresh").getValue();
 
         TokenDTO token;
 
-        String cachedAccessToken = (String) redisUtil.get(refreshToken);
+        String cachedAccessToken = (String) redisUtil.get(KakaoService.REFRESH_TOKEN_PREFIX + refreshToken);
         if (cachedAccessToken != null) {
             token = new TokenDTO(cachedAccessToken, null);
         } else {
-            refreshToken = refreshToken.replaceFirst(KakaoService.REFRESH_TOKEN_PREFIX, "");
             token = kakaoService.reIssueToken("refresh_token", REST_API_KEY, refreshToken);
             UserInfoDto userInfo = kakaoService.getUserInfo(token.getAccessToken());
 
