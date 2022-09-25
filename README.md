@@ -18,7 +18,7 @@
 시민들은 기존의 오프라인 민원 관리 방식에 대하여 긴 민원 접수 시간, 불친절한 응대, 그리고 복잡한 절차 등 많은 불만을 가지고 있었습니다.
 때문에 민원 관리 시스템의 디지털화는 큰 변화와 편리를 가져왔습니다.
 예를 들어 사람들은 더 이상 동사무소에서 줄을 서서 민원을 접수할 필요가 없어졌고, 복잡한 민원 접수 절차는 간소화 되었는 것을 통해 알 수 있습니다.
-이와 같은 실정에서 스마트시대의 주민참여 증대를 위한 여러가지 시도들이 계속해서 모색되어 왔습니다. [[프로젝트 배경 조사]](https://kindhearted-shoulder-b11.notion.site/acacdbdf10f442cebcf7c565ebe99c24)
+이와 같은 실정에서 스마트시대의 주민참여 증대를 위한 여러가지 시도들이 계속해서 모색되어 왔습니다. [[관련 논문]](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b48654df-fe0a-41e1-aa08-23980536cd3f/%E1%84%8C%E1%85%AE%E1%84%86%E1%85%B5%E1%86%AB_%E1%84%8E%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%A7_%E1%84%87%E1%85%AE%E1%84%8C%E1%85%A9%E1%86%A8_%E1%84%82%E1%85%A9%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220924%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220924T144549Z&X-Amz-Expires=86400&X-Amz-Signature=55d623af142548a1ec3e4bf9c11b5a5e9fc7b85eef0e9d73f01de698e55a91f6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%258C%25E1%2585%25AE%25E1%2584%2586%25E1%2585%25B5%25E1%2586%25AB%2520%25E1%2584%258E%25E1%2585%25A1%25E1%2586%25B7%25E1%2584%258B%25E1%2585%25A7%2520%25E1%2584%2587%25E1%2585%25AE%25E1%2584%258C%25E1%2585%25A9%25E1%2586%25A8%2520%25E1%2584%2582%25E1%2585%25A9%25E1%2586%25AB%25E1%2584%2586%25E1%2585%25AE%25E1%2586%25AB.pdf%22&x-id=GetObject)
 
 그 중 대표적인 예로 대구 광역시에서 운영하는 게시판 형태의 민원관리 시스템 ‘두드리소’ 가 있습니다. 두드리소는 기존의 민원 접수 과정에서 복잡한 인증 절차를 생략하여
 실제로 많은 시민들이 이용하고 있습니다. 하지만 현재 ‘두드리소’ 홈페이지는 몇 가지 개선점이 필요해 보입니다. 저희 팀이 발견한 문제는 아래와 같습니다.
@@ -246,8 +246,16 @@ $ docker build -t tag-name:1.0 .
 $ docker run -p 8080:8080 -d —name=app-name tag-name:1.0
 ```
 
+## 8. 링크
 
-## 8. Contributor
+
+[핀플레인 사이트](https://www.pinplaint.com/)
+
+
+[시연 영상](https://youtu.be/BMQzrBgIfZw)
+
+
+## 9. Contributor
 
 ### 디자인
 | Name | Major | Email|
