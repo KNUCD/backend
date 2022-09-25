@@ -247,7 +247,7 @@ $ docker run -p 8080:8080 -d —name=app-name tag-name:1.0
 ```
 
 
-## **5. Contributor**
+## 8. Contributor
 
 ### 디자인
 | Name | Major | Email|
