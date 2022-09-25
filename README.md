@@ -99,7 +99,7 @@
 ## 6. 프로젝트에 활용된 기술
 
 #### [ 기술 스택 ]
-<img src="https://user-images.githubusercontent.com/51109514/192118314-e86e0e15-393f-4fbf-ad56-f6aecfd118ed.jpeg" width="70%">
+![image](https://user-images.githubusercontent.com/67043922/192131064-72970f1e-3dd1-46ed-a775-3007f8af0459.png)
 
 ### 1. 배포 환경 및 CI/CD
 
